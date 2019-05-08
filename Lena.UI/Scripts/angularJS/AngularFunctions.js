@@ -24,6 +24,36 @@ app.controller("loginCtrl", ['$scope', '$http', function ($scope, $http) {
         }
     };
 }]);
+app.controller("registerCtrl", ['$scope', '$http', function ($scope, $http) {
+    $scope.errorLogin = "";
+    $scope.register = function () {
+        if ($scope.username && $scope.username.length > 0 && $scope.password && $scope.password.length > 0
+            && $scope.rePassword && $scope.rePassword.length > 0) {
+            if ($scope.rePassword !== $scope.password) {
+                $scope.errorLogin = "Şifreler uyuşmuyor.";
+                return;
+            }
+            $http.post("/Home/Register", { username: $scope.username, password: $scope.password })
+                .then(function (data) {
+                    if (data && data.data) {
+                        console.log("Başarılı");
+                        $scope.errorLogin = "Başarıyla kayıt oldunuz yaptınız.";
+                        location.href = "/Home/Login";
+                    }
+                    else {
+                        $scope.errorLogin = data.data;
+                        console.log("Başarısız");
+                        $scope.errorLogin = "Kayıt başarısız oldu.";
+                    }
+                }, function (err) {
+                    console.log(err);
+                    $scope.errorLogin = "Kayıt başarısız oldu.";
+                    });
+        } else {
+            $scope.errorLogin = "Kullanıcı adı ve şifrenizi girin.";
+        }
+    };
+}]);
 
 app.controller("createForm", function ($scope, $http) {
     $scope.Name = "";
@@ -37,7 +67,7 @@ app.controller("createForm", function ($scope, $http) {
             $scope.Fields.push({
                 Name: $scope.FieldName,
                 DataType: $scope.DataType,
-                IsActive: true
+                Required: $scope.Required
             });
         }
     };
@@ -52,8 +82,9 @@ app.controller("createForm", function ($scope, $http) {
             $scope.pageError = "Lütfen formunuza alan(lar) ekleyin.";
             return;
         }
-
-        $http.post("/Forms/CreateForm", { Name: $scope.Name, Description: $scope.Description, Fields: $scope.Fields, IsActive: true })
+        var sendData = { Name: $scope.Name, Description: $scope.Description, Fields: $scope.Fields };
+        
+        $http.post("/Form/Add", JSON.stringify(sendData))
             .then(function (data) {
                 console.log(data);
                 location.reload();
@@ -61,5 +92,23 @@ app.controller("createForm", function ($scope, $http) {
                 $scope.pageError = "Bir hata oldu!";
                 console.log(err);
             });
+    };
+});
+
+app.controller("listFormsCtrl", function ($scope, $http) {
+    $scope.forms = [];
+    $http.post("/form/getForms")
+        .then(function (response) {
+            if (response.data !== null)
+                $scope.forms = response.data;
+        });
+});
+
+app.filter("mydate", function () {
+    var re = /\/Date\(([0-9]*)\)\//;
+    return function (x) {
+        var m = x.match(re);
+        if (m) return new Date(parseInt(m[1]));
+        else return null;
     };
 });

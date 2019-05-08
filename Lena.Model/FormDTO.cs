@@ -13,7 +13,7 @@ namespace Lena.Model
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public int CreatedBy { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public List<FieldDTO> Fields { get; set; }
     }

@@ -9,16 +9,14 @@ using System.Web.Mvc;
 namespace Lena.UI.Controllers
 {
     [Authorize]
-    public class FormsController : Controller
+    public class FormController : Controller
     {
         public ActionResult Index()
         {
-            Lena.Business.FormService formService = new Business.FormService();
-            var formList = formService.getAll().OrderByDescending(x => x.CreatedAt);
-            return View(formList);
+            return View();
         }
 
-        public ActionResult Form(int formId)
+        public ActionResult OpenForm(int formId)
         {
             FormService formService = new FormService();
             var form = formService.get(formId);
@@ -31,7 +29,7 @@ namespace Lena.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult CreateForm(FormDTO formDTO)
+        public JsonResult Add(FormDTO formDTO)
         {
             UserService userService = new UserService();
             var user = userService.getUserWithUsername(User.Identity.Name);
@@ -41,6 +39,14 @@ namespace Lena.UI.Controllers
             FormService formService = new FormService();
             var result = formService.add(formDTO);
             return Json(result);
+        }
+
+        [HttpPost]
+        public JsonResult GetForms()
+        {
+            Lena.Business.FormService formService = new Business.FormService();
+            var formList = formService.getAll().OrderByDescending(x => x.CreatedAt);
+            return Json(formList);
         }
 
 

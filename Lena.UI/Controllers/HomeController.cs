@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lena.Business;
+using Lena.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -29,6 +31,17 @@ namespace Lena.UI.Controllers
                 return Json(1);
             }
             return Json("Kullanıcı adı veya şifreniz yanlış");
+        }
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult Register(UserDTO user)
+        {
+            UserService userService = new UserService();
+            return Json(userService.add(user));
         }
     }
 }

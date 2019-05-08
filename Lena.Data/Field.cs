@@ -19,6 +19,7 @@ namespace Lena.Data
         public string Name { get; set; }
         public string DataType { get; set; }
         public bool IsActive { get; set; }
+        public bool Required { get; set; }
     
         public virtual Form Form { get; set; }
     }

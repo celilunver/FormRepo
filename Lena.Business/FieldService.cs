@@ -23,7 +23,7 @@ namespace Lena.Business
         }
         public FieldService()
         {
-            uow = new UnitofWork(new LenaDbEntities2());
+            uow = new UnitofWork(new LenaDbEntities());
         }
 
         public FieldDTO add(FieldDTO entity)

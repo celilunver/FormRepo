@@ -17,13 +17,13 @@ namespace Lena.UI
             routes.MapRoute(
                 name: "formRoute",
                 url: "forms/{formId}",
-                defaults: new { controller = "Forms", action = "Form", formId = UrlParameter.Optional }
+                defaults: new { controller = "Form", action = "OpenForm", formId = UrlParameter.Optional }
             );
 
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Forms", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Form", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

@@ -24,13 +24,12 @@ namespace Lena.Business
         }
         public UserService()
         {
-            uow = new UnitofWork(new LenaDbEntities2());
+            uow = new UnitofWork(new LenaDbEntities());
         }
 
         public UserDTO add(UserDTO entity)
         {
-            if(!string.IsNullOrEmpty(entity.FirstName) && !string.IsNullOrEmpty(entity.LastName) &&
-                !string.IsNullOrEmpty(entity.Username) && !string.IsNullOrEmpty(entity.Password))
+            if(!string.IsNullOrEmpty(entity.Username) && !string.IsNullOrEmpty(entity.Password))
             {
                 if(uow.GetRepository<User>().Get(x=>x.Username == entity.Username) == null)
                 {

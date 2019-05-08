@@ -10,8 +10,8 @@ namespace Lena.Data.Repository
 {
     public class RepositoryBase<T> : IRepository<T> where T : class
     {
-        private readonly LenaDbEntities2 context;
-        public RepositoryBase(LenaDbEntities2 context)
+        private readonly LenaDbEntities context;
+        public RepositoryBase(LenaDbEntities context)
         {
             this.context = context;
         }

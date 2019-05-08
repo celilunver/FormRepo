@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = Model.Name;
 }
+@using (Html.BeginForm())
+{
+
     <div>
         <h2>@Model.Name</h2>
         <h4>
@@ -16,14 +19,16 @@
                 <dt><label class="control-label">@item.Name</label></dt>
                 if (item.DataType == Lena.Model.DataType.STRING.ToString())
                 {
-                    <dd><input class="form-control" type="text" name="@item.Id" /></dd>
+                    <dd><input class="form-control" type="text" @(item.Required? "required" : "") name="@item.Id" /></dd>
                 }
                 else if (item.DataType == Lena.Model.DataType.NUMBER.ToString())
                 {
-                    <dd><input class="form-control" type="number" name="@item.Id" /></dd>
+                    <dd><input class="form-control" type="number" @(item.Required? "required" : "") name="@item.Id" /></dd>
                 }
                 <br />
             }
         </dl>
-        <input type="button" class="btn btn-success" value="Kaydet" />
+        <input type="submit" class="btn btn-success" value="Kaydet" />
     </div>
+    
+}

@@ -21,7 +21,8 @@
                 <div ng-repeat="field in Fields" style="margin-top:5px">
                     {{field.Name}} <br />
                     <span ng-if="field.DataType=='NUMBER'">RAKAM</span>
-                    <span ng-if="field.DataType=='STRING'">YAZI</span>
+                    <span ng-if="field.DataType=='STRING'">YAZI</span> <br />
+                    <label>Gerekli Alan: <input type="checkbox"  disabled ng-checked="field.Required"/></label>
                 </div>
             </div>
             <div>
@@ -34,6 +35,7 @@
                     <option value="@Lena.Model.DataType.STRING.ToString()">Yazı</option>
                     <option value="@Lena.Model.DataType.NUMBER.ToString()">Rakam</option>
                 </select>
+                <label>Gerekli Alan: <input type="checkbox" ng-model="Required" /></label> <br />
                 <input type="button" value="Alan Ekle" class="btn btn-default" ng-click="addField()" />
             </div>
         </div>

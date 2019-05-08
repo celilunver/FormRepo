@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LenaDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LenaDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Field">
           <Key>
             <PropertyRef Name="Id" />
@@ -14,6 +14,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DataType" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="Required" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Form">
           <Key>
@@ -31,8 +32,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -74,8 +73,7 @@
             <End Role="Form" EntitySet="Form" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LenaDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -88,6 +86,7 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DataType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Required" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Form" Relationship="Self.FK_Field_Form" FromRole="Field" ToRole="Form" />
         </EntityType>
         <EntityType Name="Form">
@@ -101,19 +100,7 @@
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Fields" Relationship="Self.FK_Field_Form" FromRole="Form" ToRole="Field" />
-          <NavigationProperty Name="User" Relationship="Self.FK_Form_User" FromRole="Form" ToRole="User" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Forms" Relationship="Self.FK_Form_User" FromRole="User" ToRole="Form" />
+          <NavigationProperty Name="User" Relationship="LenaDbModel.FK_Form_User" FromRole="Form" ToRole="User" />
         </EntityType>
         <Association Name="FK_Field_Form">
           <End Role="Form" Type="Self.Form" Multiplicity="1" />
@@ -127,9 +114,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="LenaDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Fields" EntityType="Self.Field" />
+          <EntitySet Name="Forms" EntityType="Self.Form" />
+          <AssociationSet Name="FK_Field_Form" Association="Self.FK_Field_Form">
+            <End Role="Form" EntitySet="Forms" />
+            <End Role="Field" EntitySet="Fields" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="LenaDbModel.User" />
+          <AssociationSet Name="FK_Form_User" Association="LenaDbModel.FK_Form_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Form" EntitySet="Forms" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Forms" Relationship="LenaDbModel.FK_Form_User" FromRole="User" ToRole="Form" />
+        </EntityType>
         <Association Name="FK_Form_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Form" Type="Self.Form" Multiplicity="*" />
+          <End Type="LenaDbModel.User" Role="User" Multiplicity="1" />
+          <End Type="LenaDbModel.Form" Role="Form" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
@@ -139,25 +149,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="LenaDbEntities2" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Fields" EntityType="Self.Field" />
-          <EntitySet Name="Forms" EntityType="Self.Form" />
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK_Field_Form" Association="Self.FK_Field_Form">
-            <End Role="Form" EntitySet="Forms" />
-            <End Role="Field" EntitySet="Fields" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Form_User" Association="Self.FK_Form_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Form" EntitySet="Forms" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="LenaDbModelStoreContainer" CdmEntityContainer="LenaDbEntities2">
+        <EntityContainerMapping StorageEntityContainer="LenaDbModelStoreContainer" CdmEntityContainer="LenaDbEntities">
           <EntitySetMapping Name="Fields">
             <EntityTypeMapping TypeName="LenaDbModel.Field">
               <MappingFragment StoreEntitySet="Field">
@@ -166,6 +163,7 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DataType" ColumnName="DataType" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Required" ColumnName="Required" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -184,12 +182,10 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="LenaDbModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

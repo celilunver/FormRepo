@@ -13,10 +13,10 @@ namespace Lena.Data
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class LenaDbEntities2 : DbContext
+    public partial class LenaDbEntities : DbContext
     {
-        public LenaDbEntities2()
-            : base("name=LenaDbEntities2")
+        public LenaDbEntities()
+            : base("name=LenaDbEntities")
         {
         }
     

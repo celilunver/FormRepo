@@ -9,10 +9,10 @@ namespace Lena.Data.UnitofWork
 {
     public class UnitofWork : IUnitofWork
     {
-        private readonly LenaDbEntities2 context;
+        private readonly LenaDbEntities context;
         private Dictionary<Type, object> repositories;
 
-        public UnitofWork(LenaDbEntities2 _context)
+        public UnitofWork(LenaDbEntities _context)
         {
             context = _context;
             repositories = repositories ?? new Dictionary<Type, object>();

@@ -1,9 +1,11 @@
-﻿@{
-    ViewBag.Title = "Giriş Yap";
+﻿
+@{
+    ViewBag.Title = "Kayıt Ol";
 }
+
 <div class="row">
-    <div class="col-md-6 login-form-1" ng-controller="loginCtrl">
-        <h3>Giriş Yap</h3>
+    <div class="col-md-6 login-form-1" ng-controller="registerCtrl">
+        <h3>Kayıt Ol</h3>
         <form>
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Kullanıcı Adı" ng-model="username" value="" />
@@ -12,13 +14,15 @@
                 <input type="password" class="form-control" placeholder="Şifre" ng-model="password" value="" />
             </div>
             <div class="form-group">
+                <input type="password" class="form-control" placeholder="Şifre Tekrar " ng-model="rePassword" value="" />
+            </div>
+            <div class="form-group">
                 <label class="text-danger">
                     {{errorLogin}}
                 </label>
             </div>
             <div class="form-group">
-                <input type="button" ng-click="login()" class="btn btn-primary" value="Giriş Yap" />
-                <a href="@Url.Action("Register")" class="btn btn-danger">Kayıt Ol</a>
+                <input type="button" ng-click="register()" class="btn btn-primary" value="Kayıt Ol" />
             </div>
         </form>
     </div>

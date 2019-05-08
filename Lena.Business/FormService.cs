@@ -23,7 +23,7 @@ namespace Lena.Business
         }
         public FormService()
         {
-            uow = new UnitofWork(new LenaDbEntities2());
+            uow = new UnitofWork(new LenaDbEntities());
         }
         public FormDTO add(FormDTO entity)
         {

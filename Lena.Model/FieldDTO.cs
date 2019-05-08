@@ -17,6 +17,7 @@ namespace Lena.Model
         public int FormId { get; set; }
         public string Name { get; set; }
         public string DataType { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
+        public bool Required { get; set; }
     }
 }

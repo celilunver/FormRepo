@@ -1,29 +1,26 @@
-﻿@model IEnumerable<Lena.Model.FormDTO>
-@{
+﻿@{
     ViewBag.Title = "Formlar";
 }
-
-
-<div class="row">
+<div class="row" ng-controller="listFormsCtrl">
     <table class="table table-striped">
         <thead>
+            
             <tr>
-                <th>İsim</th>
+                <th>İsim
+                        <input type="text" class="form-control" placeholder="Ara" ng-model="searchText" />
+                </th>
                 <th>Açıklama</th>
                 <th>Tarih</th>
                 <th>İşlem</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Description</td>
-                    <td>@item.CreatedAt</td>
-                    <td><a href="/forms/@(item.Id)">Görüntüle</a></td>
-                </tr>
-            }
+            <tr ng-repeat="item in forms | filter:searchText">
+                <td>{{item.Name}}</td>
+                <td>{{item.Description}}</td>
+                <td>{{ item.CreatedAt | mydate | date: 'dd-MM-yyyy HH:mm'}}</td>
+                <td><a href="/forms/{{item.Id}}">Görüntüle</a></td>
+            </tr>
         </tbody>
         <tfoot>
             <tr>
@@ -47,7 +44,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                @{Html.RenderAction("_CreateForm", "Forms"); }
+                @{Html.RenderAction("_CreateForm", "Form"); }
             </div>
         </div>
     </div>

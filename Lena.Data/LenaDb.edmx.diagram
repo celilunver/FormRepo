@@ -4,12 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="96f70558ab87400e92c79524e4e4fdf6" Name="Diagram1">
-        <EntityTypeShape EntityType="LenaDbModel.Field" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+      <Diagram DiagramId="49715a3ecfcb4d38838988ff44726152" Name="Diagram1">
+        <EntityTypeShape EntityType="LenaDbModel.Field" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="LenaDbModel.Form" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="LenaDbModel.User" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="LenaDbModel.FK_Field_Form" ManuallyRouted="false" />
-        <AssociationConnector Association="LenaDbModel.FK_Form_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LenaDbModel.User" Width="1.5" PointX="0.75" PointY="1.25" />
+        <AssociationConnector Association="LenaDbModel.FK_Form_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
