@@ -1,0 +1,54 @@
+﻿    <div class="form-horizontal" ng-controller="createForm">
+    <div class="form-group">
+        <label class="control-label col-md-2">Form İsmi</label>
+        <div class="col-md-10">
+            <input type="text" name="name" class="form-control" value="" ng-model="Name" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Açıklama</label>
+        <div class="col-md-10">
+            <textarea class="form-control" ng-model="Description"></textarea>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-md-2" ng-if="fields.length > 0">Alanlar</label>
+        <div class="col-md-10">
+            <div>
+                <div ng-repeat="field in Fields" style="margin-top:5px">
+                    {{field.Name}} <br />
+                    <span ng-if="field.DataType=='NUMBER'">RAKAM</span>
+                    <span ng-if="field.DataType=='STRING'">YAZI</span>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="control-label col-md-2">Alan Ekle</label>
+                </div>
+                <input type="text" name="description" class="form-control" value="" ng-model="FieldName" placeholder="Alan İsmi" />
+                <select class="form-control" ng-model="DataType" style="margin:10px 0;">
+                    <option selected value="">Veri Tipi Seçin</option>
+                    <option value="@Lena.Model.DataType.STRING.ToString()">Yazı</option>
+                    <option value="@Lena.Model.DataType.NUMBER.ToString()">Rakam</option>
+                </select>
+                <input type="button" value="Alan Ekle" class="btn btn-default" ng-click="addField()" />
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="pageError.length > 0" class="alert alert-danger" role="alert">
+        {{pageError}}
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Oluştur" ng-click="createNewForm()" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

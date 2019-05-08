@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Giriş Yap";
+}
+<div class="row">
+    <div class="col-md-6 login-form-1" ng-controller="loginCtrl">
+        <h3>Giriş Yap</h3>
+        <form>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Kullanıcı Adı" ng-model="username" value="" />
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Şifre" ng-model="password" value="" />
+            </div>
+            <div class="form-group">
+                <label class="text-danger">
+                    {{errorLogin}}
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="button" ng-click="login()" class="btn btn-primary" value="Giriş Yap" />
+            </div>
+        </form>
+    </div>
+</div>
